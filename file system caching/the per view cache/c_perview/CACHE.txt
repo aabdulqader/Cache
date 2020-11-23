@@ -1,0 +1,120 @@
+________DATABASE CACHING________
+    
+    1. The per-site cache---------cache entire website 
+
+
+        MIDDLEWARE = [
+            'django.middleware.cache.UpdateCacheMiddleware',
+            'django.middleware.common.CommonMiddleware',
+            'django.middleware.cache.FetchFromCacheMiddleware',
+        ]
+
+
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.database.DatabaseCache',
+                'LOCATION': 'enroll_cache',
+            }
+        }
+
+        CACHE_MIDDLEWARE_ALIAS - user for storage
+        CACHE_MIDDLEWARE_SECONDS**** - number of seconds eatch page should be cached
+        CACHE_MIDDLEWARE_KEY_PREFIX - 
+
+        focus on time zone---set is as usual
+
+        run this command in terminal
+            python manage.py createcachetable
+
+
+
+    2. The per-view chche ----
+        
+
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+                'LOCATION': 'my_cache_table',
+            }
+        }
+        python manage.py createcachetable
+
+        from django.views.decorators.cache import cache_page
+        @cache_page(timeout, cache, key_prefix)
+        def my_view(request):
+    
+        parameters:
+            timeout = the cache timeout in seconds
+
+        example:
+            @cache_page(60, cache='some_cache', key_prefix='some_key')
+            def my_view(request):
+
+
+        ## another way spacifing perview cache in the URLconf
+
+        from django.views.decorators.cache import cache_page
+        urlpatterns = [
+            path('home/', cache_page(60 * 15)(my_view), name='home'),
+        ]
+
+
+    3. Template flagment caching
+
+
+__________FILE SYSTEM CACHING____________
+
+
+    1.The per-site cache---------------
+
+        MIDDLEWARE = [
+            'django.middleware.cache.UpdateCacheMiddleware',
+            'django.middleware.common.CommonMiddleware',
+            'django.middleware.cache.FetchFromCacheMiddleware',
+        ]
+
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+                # development purpose
+                'LOCATION': 'c:/Django code/django_cache',
+
+                #Web server run
+                'LOCATION': '/var/tmp/django_cache',
+            }
+        }
+
+        CACHE_MIDDLEWARE_ALIAS - user for storage
+        CACHE_MIDDLEWARE_SECONDS**** - number of seconds eatch page should be cached
+        CACHE_MIDDLEWARE_KEY_PREFIX - 
+
+        focus on time zone---set is as usual
+
+
+
+
+    2. The per-view chche
+    3. Template flagment caching
+
+__________LOCAL MEMORY CACHING____________
+
+
+    1. The per-site cache
+	CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+	CACHE_MIDDLEWARE_ALIAS - user for storage
+        CACHE_MIDDLEWARE_SECONDS**** - number of seconds eatch page should be cached
+        CACHE_MIDDLEWARE_KEY_PREFIX - 
+
+        focus on time zone---set is as usual
+
+
+
+    2. The per-view chche
+    3. Template flagment caching
+

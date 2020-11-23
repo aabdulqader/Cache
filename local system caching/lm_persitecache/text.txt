@@ -1,0 +1,79 @@
+database---
+    
+    1. the per-site cache---------cache entire website 
+
+
+        MIDDLEWARE = [
+            'django.middleware.cache.UpdateCacheMiddleware',
+            'django.middleware.common.CommonMiddleware',
+            'django.middleware.cache.FetchFromCacheMiddleware',
+        ]
+
+
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.database.DatabaseCache',
+                'LOCATION': 'enroll_cache',
+            }
+        }
+
+        CACHE_MIDDLEWARE_ALIAS - user for storage
+        CACHE_MIDDLEWARE_SECONDS**** - number of seconds eatch page should be cached
+        CACHE_MIDDLEWARE_KEY_PREFIX - 
+
+        focus on time zone---set is as usual
+
+        run this command in terminal
+            python manage.py createcachetable
+
+    2. the per-view chche ----
+
+
+
+    3. template flagment caching
+
+
+file system--
+
+
+    the per-site cache---------------
+
+        MIDDLEWARE = [
+            'django.middleware.cache.UpdateCacheMiddleware',
+            'django.middleware.common.CommonMiddleware',
+            'django.middleware.cache.FetchFromCacheMiddleware',
+        ]
+
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+                # development purpose
+                'LOCATION': 'c:/Django code/django_cache',
+
+                #Web server run
+                'LOCATION': '/var/tmp/django_cache',
+            }
+        }
+
+        CACHE_MIDDLEWARE_ALIAS - user for storage
+        CACHE_MIDDLEWARE_SECONDS**** - number of seconds eatch page should be cached
+        CACHE_MIDDLEWARE_KEY_PREFIX - 
+
+        focus on time zone---set is as usual
+
+        run this command in terminal
+            python manage.py createcachetable
+
+
+
+
+    the per-view chche
+    template flagment caching
+
+local memory---
+
+
+    the per-site cache
+    the per-view chche
+    template flagment caching
+
